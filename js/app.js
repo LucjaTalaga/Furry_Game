@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     class Coin{
         constructor(){
-            this.x = Math.floor(Math.random() * 10);;
-            this.y = Math.floor(Math.random() * 10);;
+            this.x = Math.floor(Math.random() * 10);
+            this.y = Math.floor(Math.random() * 10);
         }
     }
 
@@ -57,22 +57,44 @@ document.addEventListener("DOMContentLoaded", function(){
             } else if (this.furry.direction === "left") {
                 this.furry.x = this.furry.x - 1;
             } else if (this.furry.direction === "up") {
-                this.furry.y = this.furry.y + 1;
-            } else if (this.furry.direction === "down") {
                 this.furry.y = this.furry.y - 1;
+            } else if (this.furry.direction === "down") {
+                this.furry.y = this.furry.y + 1;
             }
             this.showFurry();
         }
+
         hideVisibleFurry() {
-           let furryElement = document.querySelector('.furry');
-           if(furryElement)
-               furryElement.classList.remove('furry');
+            let furryElement = document.querySelector('.furry');
+            if (furryElement)
+                furryElement.classList.remove('furry');
+        }
+
+        turnFurry(event) {
+            switch (event.which) {
+                case 37:
+                    this.furry.direction = 'left';
+                    break;
+                case 39:
+                    this.furry.direction = 'right';
+                    break;
+                case 38:
+                    this.furry.direction = 'up';
+                    break;
+                case 40:
+                    this.furry.direction = 'down';
+                    break;
+            }
         }
     }
+
     const gra = new Game();
     gra.boardLog();
     gra.showFurry();
     gra.showCoin();
     gra.startGame();
+    document.addEventListener('keydown', function (event) {
+        gra.turnFurry(event);
+    });
 
 });
