@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
             this.startGameInterval = setInterval(() => {
                 this.moveFurry();
                 this.idSetInterval++;
-                if (this.idSetInterval > 20)
+                if (this.idSetInterval > 25)
                     clearInterval(this.startGameInterval);
             }, 250);
         }
@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.furry.y = this.furry.y + 1;
             }
             this.showFurry();
+            this.checkCoinCollision();
         }
 
         hideVisibleFurry() {
@@ -84,6 +85,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 case 40:
                     this.furry.direction = 'down';
                     break;
+            }
+        }
+        checkCoinCollision() {
+            if(this.furry.x === this.coin.x && this.furry.y === this.coin.y){
+                this.board[this.index(this.coin.x, this.coin.y)].classList.remove('coin');
+                this.score++;
+                let scoreField = document.querySelector('#score').querySelector('strong');
+                scoreField.innerText = this.score;
+                this.coin = new Coin();
+                this.showCoin();
             }
         }
     }
