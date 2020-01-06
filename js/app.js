@@ -24,9 +24,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         }
 
-        boardLog() {
-            console.log(this.board);
-        }
 
         index(x, y) {
             return x + (y * 10);
@@ -34,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
         showFurry() {
             this.hideVisibleFurry();
-            this.board[this.index(this.furry.x, this.furry.y)].classList.add('furry');
+            if(this.furry.y<=9 && this.furry.y>=0)
+                this.board[this.index(this.furry.x, this.furry.y)].classList.add('furry');
 
         }
 
@@ -46,8 +44,6 @@ document.addEventListener("DOMContentLoaded", function(){
             this.startGameInterval = setInterval(() => {
                 this.moveFurry();
                 this.idSetInterval++;
-                if (this.idSetInterval > 25)
-                    clearInterval(this.startGameInterval);
             }, 250);
         }
 
@@ -62,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.furry.y = this.furry.y + 1;
             }
             this.showFurry();
+            this.gameOver();
             this.checkCoinCollision();
         }
 
@@ -97,10 +94,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.showCoin();
             }
         }
+        gameOver(){
+            if(this.furry.x>9 || this.furry.x<0 || this.furry.y>9 || this.furry.y<0){
+                clearInterval(this.startGameInterval);
+                this.hideVisibleFurry();
+                alert("game over");
+            }
+        }
     }
 
     const gra = new Game();
-    gra.boardLog();
     gra.showFurry();
     gra.showCoin();
     gra.startGame();
